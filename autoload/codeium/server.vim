@@ -196,6 +196,10 @@ function! s:ActuallyStart() abort
   let config = get(g:, 'codeium_server_config', {})
   let manager_dir = tempname() . '/codeium/manager'
   call mkdir(manager_dir, 'p')
+  let maybe_bin = system('readlink `which codeium-lsp`')
+  if v:shell_error == 0
+    let s:bin = substitute(maybe_bin, '\n\+$', '', '')
+  endif
 
   let args = [
         \ s:bin,
